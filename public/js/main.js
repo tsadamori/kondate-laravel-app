@@ -1,15 +1,15 @@
-$(function() {
-    var pos = 0;
-    $(window).on('scroll' ,function() {
+// $(function() {
+//     var pos = 0;
+//     $(window).on('scroll' ,function() {
     
-        if($(this).scrollTop() < pos) {
-            $('nav').slideDown();
-        } else {
-            $('nav').slideUp();
-        }
-        pos = $(this).scrollTop();
-    });
-})
+//         if($(this).scrollTop() < pos) {
+//             $('nav').slideDown();
+//         } else {
+//             $('nav').slideUp();
+//         }
+//         pos = $(this).scrollTop();
+//     });
+// })
 
 $(document).on('click', '.menu-btn .add-menu-btn', function() {
     $('#kondate-list').show();
@@ -137,7 +137,6 @@ $(document).on('click', '#create-form .add-btn, #edit-form .add-btn', function()
         .append(
             `<div class="form-inline mb-2">
             <input type="text" name="ingredients[]" class="ml-1 form-control">
-            <label for="ingredients_count[]" class="ml-3">数量: </label>
             <input type="text" name="ingredients_count[]" class="ml-1 form-control">
             <input type="button" value="＋", class="ml-3 add-btn btn btn-sm">
             <input type="button" value="ー", class="minus-btn btn btn-sm">
@@ -206,4 +205,9 @@ $(document).on('click', '.kondate_delete_btn', function() {
     }).fail(function(res) {
         console.log('fail');
     });
+});
+
+// bootstrapのハンバーガーメニュー不具合対応(ハンバーガーメニューが閉じない)
+$('.navbar-toggler').on('click', function(){
+    $('#navbarSupportedContent').toggle();
 });

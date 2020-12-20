@@ -13,7 +13,7 @@
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('file', '画像を登録', ['class' => 'btn btn-sm btn-pink w-25']) !!}
+                    {!! Form::label('file', '画像を登録', ['class' => 'btn btn-sm btn-pink image-btn']) !!}
                     {!! Form::file('file', ['class' => 'd-none', 'accept' => 'image/*', 'onchange' => 'onChangeFileInput(this)']) !!}
                     <div id="thumbnail" class="mt-2 mb-4">
                         <img id="thumbnail-img" src="" height="100">
@@ -25,10 +25,19 @@
                 </div>
                 <div id="ingredient-form" class="form-group">
                     {!! Form::label('ingredients[]', '材料:（必須）') !!}
-                    <div class="ingredient-form-item form-inline mb-2">
-                        {!! Form::text('ingredients[]', null, ['class' => 'ml-1 form-control']) !!}
-                        {!! Form::label('ingredients_count[]', '数量: ', ['class' => 'ml-3']) !!}
-                        {!! Form::text('ingredients_count[]', null, ['class' => 'ml-1 form-control']) !!}
+                    <div class="ingredient-form-item d-block d-sm-flex mb-2">
+                        <div>
+                            {!! Form::text('ingredients[]', null, [
+                                'class' => 'ml-1 form-control',
+                                'placeholder' => '例：たまご'
+                            ]) !!}
+                        </div>
+                        <div>
+                            {!! Form::text('ingredients_count[]', null, [
+                                'class' => 'ml-1 form-control',
+                                'placeholder' => '例：1個'
+                            ]) !!}
+                        </div>
                         {!! Form::button('＋', ['class' => 'ml-3 add-btn btn btn-sm']) !!}
                     </div>
                 </div>

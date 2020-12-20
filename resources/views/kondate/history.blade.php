@@ -8,7 +8,7 @@
     <hr>
 @if (count($kondate) !== 0)
     <div id="kondate-history">
-        <ul id="kondate-history-list">
+        <ul id="kondate-history-list" class="p-0">
 @foreach ($kondate as $value)
             <li class="mb-2 d-flex justify-content-between">
                 <div>

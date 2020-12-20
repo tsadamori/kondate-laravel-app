@@ -3,7 +3,7 @@
 @section('content')
 <div class="mb-5">
     <div class="text-center mt-5">
-        <h1 class="h2 mb-3">ユーザ登録</h1>
+        <h1 class="h3 mb-3">ユーザ登録</h1>
     </div>
     {!! Form::open(['route' => 'signup.post']) !!}
         <div class="mb-5">

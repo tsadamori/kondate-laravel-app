@@ -3,7 +3,7 @@
     <div id="search-form mr-0">
         {!! Form::open(['class' => 'd-sm-flex justify-content-end']) !!}
             <div class="form-group mr-sm-2">
-                {!! Form::text('keyword', '', [
+                {!! Form::search('keyword', '', [
                     'id' => 'keyword',
                     'class' => 'form-control',
                     'placeholder' => '検索'

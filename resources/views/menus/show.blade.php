@@ -7,13 +7,15 @@
     <h1 class="h3 mb-3">{{ $menu->name }}</h1>
     <hr>
     <div>
-        <a href="../img/{{ $menu->img_name }}">
-            @if ($menu->img_name)
-                <img src="img/upload/{{ $menu->img_name }}" alt="{{ $menu->name }}" width="200" height="200">
-            @else
-                <img src="img/no-image.png" alt="no-image" width="200" height="200">
-            @endif
-        </a>
+        @if ($menu->img_name)
+            <a href="/img/upload/{{ $menu->img_name }}">
+                <img src="/img/upload/{{ $menu->img_name }}" alt="{{ $menu->name }}" width="200" height="200">
+            </a>
+        @else
+            <a href="/img/no-image.png">
+                <img src="/img/no-image.png" alt="no-image" width="200" height="200">
+            </a>
+        @endif
     </div>
     <hr>
     <div>

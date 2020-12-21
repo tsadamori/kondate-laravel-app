@@ -189,7 +189,7 @@ class MenusController extends Controller
 
         // サーバ上のサムネイル画像を削除
         $img_name = $menu->img_name;
-        if (!is_null($img_name)) {
+        if (!is_null($img_name && file_exists("img/upload/{$img_name}"))) {
             unlink("img/upload/{$img_name}");
         }
 

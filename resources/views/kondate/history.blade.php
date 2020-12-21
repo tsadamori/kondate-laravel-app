@@ -30,6 +30,6 @@
     <p>献立リストはまだありません</p>
 @endif
     <hr>
-    {!! link_to_route('/', 'TOPに戻る', [], ['class' => 'btn btn-secondary btn-sm btn-block w-75 mx-auto']) !!}
+    {!! link_to_route('/', 'TOPに戻る', [], ['class' => 'btn btn-secondary btn-sm btn-block mx-auto']) !!}
 </div>
 @endsection

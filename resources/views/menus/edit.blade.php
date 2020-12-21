@@ -4,15 +4,26 @@
 
 @section('content')
     <div class="pt-5">
-        <h1 class="h3 mb-3">レシピ編集ページ</h1>
+        <h1 class="h3 mb-5">編集</h1>
         <div id="edit-form">
-            {!! Form::model($menu, ['route' => ['menus.update', $menu->id], 'method' => 'put']) !!}
+            {!! Form::model($menu, ['enctype' => 'multipart/form-data', 'route' => ['menus.update', $menu->id], 'method' => 'put']) !!}
                 <div class="form-group">
-                    {!! Form::label('name', 'レシピ名:（必須）') !!}
+                    {!! Form::label('name', '献立名:（必須）') !!}
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('content', 'レシピ説明文:') !!}
+                    {!! Form::label('file', '画像を変更', ['class' => 'btn btn-sm btn-pink image-btn']) !!}
+                    {!! Form::file('file', ['class' => 'd-none', 'accept' => 'image/*', 'onchange' => 'onChangeFileInput(this)']) !!}
+                    <div id="thumbnail" class="mt-2 mb-4">
+                        @if ($menu->img_name)
+                            <img id="thumbnail-img" src="../../img/upload/{{ $menu->img_name }}" height="150">
+                        @else
+                            <img id="thumbnail-img" src="../../img/no-image.png" height="150">
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::label('content', '説明:') !!}
                     {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
                 </div>
                <div id="ingredient-form" class="form-group">
@@ -20,7 +31,6 @@
                     @foreach($ingredients as $ingredient)
                         <div class="ingredient-form-item form-inline mb-2">
                             {!! Form::text('ingredients[]', $ingredient['ingredient'], ['class' => 'ml-1 form-control']) !!}
-                            {!! Form::label('ingredients_count[]', '数量: ', ['class' => 'ml-2']) !!}
                             {!! Form::text('ingredients_count[]', $ingredient['count'], ['class' => 'ml-1 form-control']) !!}
                             {!! Form::button('＋', ['class' => 'ml-3 add-btn btn btn-sm']) !!}
                             @if($ingredient !== reset($ingredients))
@@ -56,8 +66,8 @@
                     {!! Form::text('outside_link', null, ['class' => 'form-control']) !!}
                 </div>
 
-                {{ link_to_route('/', 'TOPに戻る', [], ['class' => 'btn btn-sm btn-secondary']) }}
-                {!! Form::submit('更新', ['class' => 'btn btn-sm btn-pink']) !!}
+                {{ link_to_route('/', 'TOPに戻る', [], ['class' => 'btn btn-sm btn-secondary btn-block mb-2']) }}
+                {!! Form::submit('更新', ['class' => 'btn btn-sm btn-pink btn-block']) !!}
             {!! Form::close() !!}
         </div>
     </div>

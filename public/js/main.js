@@ -157,6 +157,9 @@ function onChangeFileInput(fileInput) {
             $('#thumbnail').show();
             $('#thumbnail-img').attr('src', reader.result);
         };
+        reader.onerror = function() {
+            console.log('画像アップロードエラー');
+        }
         reader.readAsDataURL(file);
     }
 }
@@ -210,4 +213,18 @@ $(document).on('click', '.kondate_delete_btn', function() {
 // bootstrapのハンバーガーメニュー不具合対応(ハンバーガーメニューが閉じない)
 $('.navbar-toggler').on('click', function(){
     $('#navbarSupportedContent').toggle();
+});
+
+// 献立削除
+$('#menus-list .menu-delete-btn').on('click', function() {
+    if (confirm('削除してもよろしいですか？') == true) {
+        $('#menu-form').submit();
+    }
+});
+
+// アカウント削除
+$('#user-delete-btn').on('click', function() {
+    if (confirm('削除してもよろしいですか？') == true) {
+        $('#user-form').submit();
+    }
 });

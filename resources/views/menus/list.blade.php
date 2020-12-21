@@ -22,10 +22,10 @@
 @endforeach
             </ul>
             <div id="btn-area">
-                <a href="/"><button type="button" class="btn btn-secondary btn-sm btn-block mb-1">TOPに戻る</button></a>
-                {!! Form::submit('買い物リストを保存する', ['id' => 'save-btn', 'class' => 'btn btn-pink btn-sm btn-block mb-1']) !!}
-                <button type="button" id="edit-btn" class="btn btn-pink2 btn-sm btn-block mb-1">編集する</button>
-                <button type="button" id="complete-btn" class="btn btn-pink2 btn-sm btn-block mb-1">完了</button>
+                <a href="/"><button type="button" class="btn btn-secondary btn-sm btn-block mb-2">TOPに戻る</button></a>
+                {!! Form::submit('買い物リストを保存する', ['id' => 'save-btn', 'class' => 'btn btn-pink btn-sm btn-block mb-2']) !!}
+                {!! Form::button('編集する', ['id' => 'edit-btn', 'class' => 'btn btn-pink2 btn-sm btn-block mb-2']) !!}
+                {!! Form::button('完了', ['id' => 'complete-btn', 'class' => 'btn btn-pink2 btn-sm btn-block mb-2']) !!}
             </div>
         {!! Form::close() !!}
     </div>

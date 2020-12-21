@@ -68,6 +68,11 @@ nav li a {
     width: 100px;
 }
 
+/* edit */
+#edit-form .image-btn {
+    width: 100px;
+}
+
 /* list */
 #complete-btn {
     display: none;
@@ -75,7 +80,14 @@ nav li a {
 
 /* スマホレイアウト */
 @media screen and (max-width:768px) {
+    /* create */
     #create-form .image-btn {
+        display: block!important;
+        width: 100%;
+    }
+
+    /* edit */
+    #edit-form .image-btn {
         display: block!important;
         width: 100%;
     }

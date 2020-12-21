@@ -63,37 +63,36 @@
                 <div class="row">
                     <div class="col-12 col-sm-4 mb-3 text-center text-sm-left">
                         <div>
-                                @if ($menu->img_name)
-                                    <a href="img/{{ $menu->img_name }}">
-                                        <img class="mt-1" src="img/{{ $menu->img_name }}" width="200" height="200">
-                                    </a>
-                                @else
-                                    <a href="img/no-image.png">
-                                        <img class="mt-1" src="img/no-image.png" width="200" height="200">
-                                    </a>
-                                @endif
-                            </a>
+                            @if ($menu->img_name)
+                                <a href="img/upload/{{ $menu->img_name }}">
+                                    <img class="mt-1 thumbnail-img" src="img/upload/{{ $menu->img_name }}" width="200" height="200" alt="{{ $menu->img_name }}">
+                                </a>
+                            @else
+                                <a href="img/no-image.png">
+                                    <img class="mt-1 thumbnail-img" src="img/no-image.png" width="200" height="200">
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div class="menu-btn col-12 col-sm-8 text-right">
                         {!! Form::model($menu, [
                             'route' => [
-                                'menus.destroy', $menu->id],
-                                'method' => 'delete'
-                            ],[
-                            'class' => 'form-group'
-                            ]) !!}
+                                'menus.destroy', $menu->id
+                            ], 
+                            'method' => 'delete',
+                            'id' => 'menu-form',
+                            'class' => 'form-group',
+                        ]) !!}
                             {!! Form::button('献立に入れる', [
                                 'class' => 'add-menu-btn btn btn-sm btn-pink form-control mb-2',
-                                'type' => 'button',
                                 'data-id' => $menu->id,
                                 'data-name' => $menu->name
                             ]) !!}
                             {!! link_to_route('menus.edit', '編集', [$menu->id], [
                                 'class' => 'btn btn-sm btn-pink2 form-control mb-2'
                             ]) !!}
-                            {!! Form::submit('削除', [
-                                'class' => 'btn btn-sm btn-danger form-control'
+                            {!! Form::button('削除', [
+                                'class' => 'btn btn-sm btn-danger form-control menu-delete-btn'
                             ]) !!}
                         {!! Form::close() !!}
                     </div>

@@ -9,9 +9,9 @@
     <div>
         <a href="../img/{{ $menu->img_name }}">
             @if ($menu->img_name)
-                <img src="../img/{{ $menu->img_name }}" alt="{{ $menu->name }}" width="100" height="100">
+                <img src="img/upload/{{ $menu->img_name }}" alt="{{ $menu->name }}" width="200" height="200">
             @else
-                <img src="../img/no-image.png" alt="no-image" width="200" height="200">
+                <img src="img/no-image.png" alt="no-image" width="200" height="200">
             @endif
         </a>
     </div>
@@ -39,11 +39,15 @@
     </div>
     <hr>
     <p class="head">外部リンク</p>
-    <a href="{{ $menu->outside_link }}" target="_blank">{{ $menu->outside_link }}</a></td>
+    @if (!empty($menu->outside_link))
+        <a href="{{ $menu->outside_link }}" target="_blank"><p>{{ $menu->outside_link }}</p></a>
+    @else
+        <p>なし</p>
+    @endif
     <hr>
     {!! Form::model($menu, ['route' => ['menus.destroy', $menu->id], 'method' => 'delete']) !!}
-        {!! link_to_route('/', 'TOPに戻る', [], ['class' => 'btn btn-sm btn-pink2 btn-block']) !!}
-        {!! link_to_route('menus.edit', '編集する', [$menu->id], ['class' => 'btn btn-sm btn-pink btn-block']) !!}
+        {!! link_to_route('/', 'TOPに戻る', [], ['class' => 'btn btn-sm btn-pink2 btn-block mb-2']) !!}
+        {!! link_to_route('menus.edit', '編集する', [$menu->id], ['class' => 'btn btn-sm btn-pink btn-block mb-2']) !!}
         {!! Form::submit('削除する', ['class' => 'btn btn-sm btn-danger btn-block']) !!}
     {!! Form::close() !!}
 </div>

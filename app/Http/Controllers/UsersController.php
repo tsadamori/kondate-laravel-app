@@ -32,6 +32,20 @@ class UsersController extends Controller
         ]);
     }
 
+    public function edit()
+    {
+        $user = User::find(Auth::id());
+
+        return view('users.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    public function update()
+    {
+        
+    }
+
     public function delete()
     {
         $user = User::where('id', Auth::id());

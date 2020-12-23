@@ -7,6 +7,7 @@
         <h1 class="h3 mb-5">編集</h1>
         <div id="edit-form">
             {!! Form::model($menu, ['enctype' => 'multipart/form-data', 'route' => ['menus.update', $menu->id], 'method' => 'put']) !!}
+                @csrf
                 <div class="form-group">
                     {!! Form::label('name', '献立名:（必須）') !!}
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}

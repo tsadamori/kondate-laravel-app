@@ -70,6 +70,7 @@ class LoginController extends Controller
             'name'     => $gUser->name,
             'email'    => $gUser->email,
             'password' => \Hash::make(uniqid()),
+            'profile' => 'プロフィールを登録して下さい',
         ]);
         return $user;
     }

@@ -2,6 +2,7 @@
     <h1 class="h3 mb-3">My献立</h1>
     <div id="search-form mr-0">
         {!! Form::open(['class' => 'd-sm-flex justify-content-end']) !!}
+            @csrf
             <div class="form-group mr-sm-2">
                 {!! Form::search('keyword', '', [
                     'id' => 'keyword',

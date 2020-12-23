@@ -31,6 +31,8 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 // user
 Route::get('/profile', 'UsersController@show')->name('users.show');
+Route::get('/edit', 'UsersController@edit')->name('users.edit');
+Route::post('/update', 'Users.Controller@update')->name('users.update');
 Route::get('/password_change', 'UsersController@password_change')->name('users.password_change');
 Route::post('/delete', 'UsersController@delete')->name('users.delete');
 

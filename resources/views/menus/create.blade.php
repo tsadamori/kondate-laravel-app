@@ -8,6 +8,7 @@
 
         <div id="create-form" class="mb-5">
             {!! Form::model($menu, ['enctype' => 'multipart/form-data', 'route' => 'menus.store']) !!}
+                @csrf
                 <div class="form-group">
                     {!! Form::label('name', '献立名:（必須）') !!}
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}

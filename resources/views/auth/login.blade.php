@@ -7,6 +7,7 @@
     </div>
 
     {!! Form::open(['route' => 'login.post']) !!}
+        @csrf
         <div class="mb-5">
             <div class="form-group">
                 {!! Form::label('email', 'メールアドレス') !!}

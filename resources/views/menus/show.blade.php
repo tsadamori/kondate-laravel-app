@@ -48,6 +48,7 @@
     @endif
     <hr>
     {!! Form::model($menu, ['route' => ['menus.destroy', $menu->id], 'method' => 'delete']) !!}
+        @csrf
         {!! link_to_route('/', 'TOPに戻る', [], ['class' => 'btn btn-sm btn-pink2 btn-block mb-2']) !!}
         {!! link_to_route('menus.edit', '編集する', [$menu->id], ['class' => 'btn btn-sm btn-pink btn-block mb-2']) !!}
         {!! Form::submit('削除する', ['class' => 'btn btn-sm btn-danger btn-block']) !!}

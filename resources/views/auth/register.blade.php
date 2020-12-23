@@ -6,6 +6,7 @@
         <h1 class="h3 mb-3">ユーザ登録</h1>
     </div>
     {!! Form::open(['route' => 'signup.post']) !!}
+        @csrf
         <div class="mb-5">
             <div class="form-group">
                 {!! Form::label('name', '名前') !!}

@@ -5,6 +5,8 @@
 @section('content')
 
     <div class="pt-5">
+        <h1 class="h3">マイページ</h1>
+        <hr>
         <div class="row mb-5">
             <div class="col-12 col-lg-6">
                 <p>{{ $user->name }}</p>

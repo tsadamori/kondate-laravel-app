@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User; // 追加
+use App\User;
 use Auth;
 
 class UsersController extends Controller
@@ -41,9 +41,32 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(Request $request)
     {
-        
+        // バリデーション
+        $this->validate($request, [
+            'name' => 'required',
+            'profile' => 'required',
+        ]);
+
+        // ユーザ情報をアップデート
+        $user = User::where('id', Auth::id())->first();
+        $user->name = $request->name;
+        $user->img_name = !empty($_FILES['file']['name']) ? $_FILES['file']['name'] : null;
+        $user->profile = $request->profile;
+        $user->save();
+        var_dump($user->img_name);
+
+        // プロフィール画像アップロード
+        $fileDir = "img/profile";
+        $tmp = $_FILES['file']['tmp_name'];
+        $name = $_FILES['file']['name'];
+
+        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+            move_uploaded_file($tmp, "{$fileDir}/{$name}");
+        }
+
+        return redirect('profile');
     }
 
     public function delete()

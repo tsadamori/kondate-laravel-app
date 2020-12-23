@@ -14,13 +14,13 @@
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('file', 'プロフィール画像を変更', ['class' => 'btn btn-sm btn-pink image-btn']) !!}
+                    {!! Form::label('file', 'プロフィール画像を変更', ['class' => 'btn btn-sm btn-pink btn-block']) !!}
                     {!! Form::file('file', ['class' => 'd-none', 'accept' => 'image/*', 'onchange' => 'onChangeFileInput(this)']) !!}
                     <div id="thumbnail" class="mt-2 mb-4">
                         @if ($user->img_name)
-                            <img id="thumbnail-img" src="../../img/upload/{{ $user->img_name }}" height="150">
+                            <img id="thumbnail-img" src="img/profile/{{ $user->img_name }}" height="150">
                         @else
-                            <img id="thumbnail-img" src="../../img/no-image.png" height="150">
+                            <img id="thumbnail-img" src="img/no-image.png" height="150">
                         @endif
                     </div>
                 </div>

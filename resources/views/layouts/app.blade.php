@@ -27,7 +27,6 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
         <!-- Google Login -->
         <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <meta name="google-signin-client_id" content="498721313974-dl33bei3kivpfuukes75650bvcqj7ivd.apps.googleusercontent.com">
     </head>
 
     <body class="bg-beige">

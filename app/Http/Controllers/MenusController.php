@@ -153,31 +153,33 @@ class MenusController extends Controller
         $insert_ingredients = implode(',', $ingredients_array);
 
         $menu = Menu::where('user_id', Auth::id())->find($id);
-        // 変更前の古い画像を削除
-        $old_img_name = $menu->img_name;
-        // var_dump($old_img_name);
-        // exit;
-        if (!is_null($old_img_name) && file_exists("img/upload/{$old_img_name}")) {
-            unlink("img/upload/{$old_img_name}");
-        }
-
         $menu->name = $request->name;
         $menu->content = !empty($request->content) ? $request->content : null;
-        $menu->img_name = !empty($_FILES['file']['name']) ? $_FILES['file']['name'] : null;
         $menu->ingredients = $insert_ingredients;
         $menu->category1_id = !empty($request->category1_id) ? $request->category1_id : null;
         $menu->category2_id = !empty($request->category2_id) ? $request->category2_id : null;
         $menu->outside_link = !empty($request->outside_link) ? $request->outside_link: null;
-        $menu->save();
+        
+        if (!empty($_FILES['file']['name'])) {
+            // 変更前の古い画像を削除
+            $old_img_name = $menu->img_name;
+            if (!is_null($old_img_name) && file_exists("img/upload/{$old_img_name}")) {
+                unlink("img/upload/{$old_img_name}");
+            }
+            
+            $menu->img_name = $_FILES['file']['name'];
 
-        //画像変更
-        $fileDir = "img/upload";
-        $tmp = $_FILES['file']['tmp_name'];
-        $name = $_FILES['file']['name'];
-
-        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-            move_uploaded_file($tmp, "{$fileDir}/{$name}");
+            //画像変更
+            $fileDir = "img/upload";
+            $tmp = $_FILES['file']['tmp_name'];
+            $name = $_FILES['file']['name'];
+            
+            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+                move_uploaded_file($tmp, "{$fileDir}/{$name}");
+            }
         }
+        
+        $menu->save();
 
         return redirect('/');
     }

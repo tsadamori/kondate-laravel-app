@@ -51,27 +51,30 @@ class UsersController extends Controller
 
         // ユーザ情報をアップデート
         $user = User::where('id', Auth::id())->first();
-
-        // 変更前の古い画像を削除
-        $old_img_name = $user->img_name;
-
-        if (!is_null($old_img_name) && file_exists("img/profile/{$old_img_name}")) {
-            unlink("img/profile/{$old_img_name}");
-        }
-
         $user->name = $request->name;
-        $user->img_name = !empty($_FILES['file']['name']) ? $_FILES['file']['name'] : null;
         $user->profile = $request->profile;
-        $user->save();
 
-        // プロフィール画像アップロード
-        $fileDir = "img/profile";
-        $tmp = $_FILES['file']['tmp_name'];
-        $name = $_FILES['file']['name'];
-
-        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-            move_uploaded_file($tmp, "{$fileDir}/{$name}");
+        // プロフィール画像更新
+        if (!empty($_FILES['file']['name'])) {
+            // 変更前の古い画像を削除
+            $old_img_name = $user->img_name;
+            if (!is_null($old_img_name) && file_exists("img/profile/{$old_img_name}")) {
+                unlink("img/profile/{$old_img_name}");
+            }
+    
+            $user->img_name = !empty($_FILES['file']['name']) ? $_FILES['file']['name'] : null;
+            
+            // プロフィール画像アップロード
+            $fileDir = "img/profile";
+            $tmp = $_FILES['file']['tmp_name'];
+            $name = $_FILES['file']['name'];
+    
+            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+                move_uploaded_file($tmp, "{$fileDir}/{$name}");
+            }
         }
+        // ユーザ情報を更新        
+        $user->save();
 
         return redirect('profile');
     }

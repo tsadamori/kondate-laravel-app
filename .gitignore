@@ -12,3 +12,4 @@ npm-debug.log
 yarn-error.log
 /public/img/profile/
 /public/img/upload/
+/database/seeds/UsersTableSeeder.php

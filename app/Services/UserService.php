@@ -3,24 +3,31 @@
 namespace App\Services;
 
 use App\User;
-use App\Repository\UserRepository;
+use App\Repositories\UserRepository;
+use App\Interfaces\UserServiceInterface;
 
 class UserService implements UserServiceInterface
 {
+    private $userRepository;
 
-    public function getUsers(): User
+    public function __construct(UserRepository $userRepository)
     {
-        return User::paginate(10);
+        $this->userRepository = $userRepository;
+    }
+
+    public function indexUsers(): User
+    {
+        return $this->userRepostory->getAllUsers();
     }
 
     public function getUser(int $id): User
     {
-        return User::findOrFail($id);
+        return $this->userRepository->getUserById($id);
     }
 
     public function updateUser(int $id, array $payload): User
     {
-        $user = User::findOrFail($id);
+        $user = $this->userRepository->getUserById($id);
         $user->name = $payload['name'];
         $user->profile = $payload['profile'];
 

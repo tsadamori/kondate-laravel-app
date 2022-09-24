@@ -11,30 +11,37 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
-    public function index(UserService $userService)
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function index()
     {
         return view('users.index', [
-            'users' => $userService->getUsers(),
+            'users' => $this->userService->indexUsers(),
         ]);
     }
 
-    public function show(UserService $userService)
+    public function show()
     {
         return view('users.show', [
-            'user' => $userService->getUser(Auth::id()),
+            'user' => $this->userService->getUser(Auth::id()),
         ]);
     }
 
-    public function edit(UserService $userService)
+    public function edit()
     {
         return view('users.edit', [
-            'user' => $userService->getUser(Auth::id()),
+            'user' => $this->userService->getUser(Auth::id()),
         ]);
     }
 
-    public function update(UpdateUserRequest $request, UserService $userService)
+    public function update(UpdateUserRequest $request)
     {
-        $userService->updateUser(Auth::id(), [
+        $this->userService->updateUser(Auth::id(), [
             'name' => $request->name,
             'profile' => $request->profile
         ]);
@@ -42,9 +49,9 @@ class UsersController extends Controller
         return redirect('profile');
     }
 
-    public function delete(UserService $userService)
+    public function delete()
     {
-        $userService->deleteUser($id);
+        $this->userService->deleteUser($id);
         Auth::logout();
 
         return view('users.bye');

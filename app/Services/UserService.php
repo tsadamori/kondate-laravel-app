@@ -22,12 +22,12 @@ class UserService implements UserServiceInterface
 
     public function getUser(int $id): User
     {
-        return $this->userRepository->getUserById($id);
+        return $this->userRepository->getUser($id);
     }
 
     public function updateUser(int $id, array $payload): User
     {
-        $user = $this->userRepository->getUserById($id);
+        $user = $this->userRepository->getUser($id);
         $user->name = $payload['name'];
         $user->profile = $payload['profile'];
 

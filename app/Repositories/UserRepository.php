@@ -9,10 +9,10 @@ class UserRepository implements UserRepositoryInterface
 {
     public function getAllUsers(): User
     {
-        return User::findAll();
+        return User::findAll()->paginate(10);
     }
 
-    public function getUserById(int $id): User
+    public function getUser(int $id): User
     {
         return User::findOrFail($id);
     }

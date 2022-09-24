@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Auth;
-use Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Menu;
 use App\Category1;
 use App\Category2;
 use App\Kondate;
 use App\Services\MenuService;
+use App\Http\Requests\StoreMenuRequest;
+use App\Http\Requests\UpdateMenuRequest;
 
 class MenuController extends Controller
 {
@@ -26,7 +28,7 @@ class MenuController extends Controller
         return view('menus.index', $this->menuService->indexMenus());
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         return view('menus.show', $this->menuService->getMenu($id));
     }
@@ -40,112 +42,37 @@ class MenuController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreMenuRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:191',
-            'content' => 'max:191',
+        $menu = $this->menuService->storeMenu([
+            'name' => $request->name ?? null,
+            'content' => $request->content ?? null,
+            'img_name' => $request->img_name ?? null,
+            'ingredients' => $request->ingredients ?? null,
+            'ingredients_count' => $request->ingredients_count ?? null,
+            'category1_id' => $request->category1_id ?? null,
+            'category2_id' => $request->category2_id ?? null,
+            'outside_link' => $request->outside_link ?? null,
         ]);
-
-        $ingredients = $request->ingredients;
-        $ingredients_count = $request->ingredients_count;
-        $ingredients_array = [];
-
-        for ($i = 0; $i < count($ingredients); $i++) {
-            array_push($ingredients_array, !is_null($ingredients[$i]) ? $ingredients[$i] : '');
-            array_push($ingredients_array, !is_null($ingredients_count[$i]) ? $ingredients_count[$i] : '');
-        }
-
-        $insert_ingredients = implode(',', $ingredients_array);
-
-        $menu = new Menu;
-        $menu->name = $request->name;
-        $menu->user_id = Auth::id();
-        $menu->content = !empty($request->content) ? $request->content : null;
-        $menu->img_name = !empty($_FILES['file']['name']) ? $_FILES['file']['name'] : null;
-        $menu->ingredients = $insert_ingredients;
-        $menu->category1_id = !empty($request->category1_id) ? $request->category1_id : null;
-        $menu->category2_id = !empty($request->category2_id) ? $request->category2_id : null;
-        $menu->outside_link = !empty($request->outside_link) ? $request->outside_link: null;
-        $menu->save();
-
-        //画像アップロード
-        $fileDir = "img/upload";
-        $tmp = $_FILES['file']['tmp_name'];
-        $name = $_FILES['file']['name'];
-
-        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-            move_uploaded_file($tmp, "{$fileDir}/{$name}");
-        }
-
         return redirect('/');
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {
-        $menu = Menu::where('user_id', Auth::id())->find($id);
-        $tmp_array = explode(',', $menu->ingredients);
-
-        $ingredients = [];
-
-        for($i = 0; $i < count($tmp_array) / 2; $i++) {
-            $ingredients[$i]['ingredient'] = $tmp_array[$i * 2];
-            $ingredients[$i]['count'] = $tmp_array[$i * 2 + 1];
-        }
-
-        return view('menus.edit', [
-            'menu' => $menu,
-            'ingredients' => $ingredients,
-        ]);
+         return view('menus.edit',  $this->menuService->editMenu($id));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateMenuRequest $request, int $id)
     {
-        $this->validate($request, [
-            'name' => 'required|max:191',
-            'content' => 'max:191',
+        $this->menuService->updateMenu($id, [
+            'name' => $request->name,
+            'content' => $request->content ?? null,
+            'ingredients' => $request->ingredients ?? null,
+            'ingredients_count' => $request->ingredients_count ?? null,
+            'category1_id' => $request->category1_id ??  null,
+            'category2_id' => $request->category2_id ??  null,
+            'outside_link' => $request->outside_link ?? null,
         ]);
-        
-        $ingredients = $request->ingredients;
-        $ingredients_count = $request->ingredients_count;
-        $ingredients_array = [];
-
-        for ($i = 0; $i < count($ingredients); $i++) {
-            array_push($ingredients_array, !is_null($ingredients[$i]) ? $ingredients[$i] : '');
-            array_push($ingredients_array, !is_null($ingredients_count[$i]) ? $ingredients_count[$i] : '');
-        }
-
-        $insert_ingredients = implode(',', $ingredients_array);
-
-        $menu = Menu::where('user_id', Auth::id())->find($id);
-        $menu->name = $request->name;
-        $menu->content = !empty($request->content) ? $request->content : null;
-        $menu->ingredients = $insert_ingredients;
-        $menu->category1_id = !empty($request->category1_id) ? $request->category1_id : null;
-        $menu->category2_id = !empty($request->category2_id) ? $request->category2_id : null;
-        $menu->outside_link = !empty($request->outside_link) ? $request->outside_link: null;
-        
-        if (!empty($_FILES['file']['name'])) {
-            // 変更前の古い画像を削除
-            $old_img_name = $menu->img_name;
-            if (!is_null($old_img_name) && file_exists("img/upload/{$old_img_name}")) {
-                unlink("img/upload/{$old_img_name}");
-            }
-            
-            $menu->img_name = $_FILES['file']['name'];
-
-            //画像変更
-            $fileDir = "img/upload";
-            $tmp = $_FILES['file']['tmp_name'];
-            $name = $_FILES['file']['name'];
-            
-            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-                move_uploaded_file($tmp, "{$fileDir}/{$name}");
-            }
-        }
-        
-        $menu->save();
-
         return redirect('/');
     }
 

@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/password_change', 'UserController@password_change')->name('users.password_change');
     Route::post('/delete', 'UserController@delete')->name('users.delete');
     
-    Route::get('/', 'MenusController@index')->name('/');
+    Route::get('/', 'MenuController@index')->name('/');
     Route::resource('menus', 'MenuController');
     Route::post('menus/search', 'MenuController@search')->name('menus.search');
     Route::post('menus/add_kondate', 'MenuController@add_kondate')->name('menus.add_kondate');

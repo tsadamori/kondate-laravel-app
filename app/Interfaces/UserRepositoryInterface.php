@@ -7,5 +7,5 @@ use App\User;
 interface UserRepositoryInterface
 {
     public function getAllUsers(): User;
-    public function getUserById(int $id): User;
+    public function getUser(int $id): User;
 }

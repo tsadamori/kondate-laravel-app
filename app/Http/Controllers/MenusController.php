@@ -15,31 +15,27 @@ class MenusController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $menus = Menu::where('user_id', Auth::id())
-                ->where('delete_flg', 0)
-                ->orderBy('id', 'desc')
-                ->paginate(10);
-            $kondate = new Kondate;
-    
-            // ユーザ名をセッションに保存
-            Session::put('user_name', $user->name);
-    
-            foreach($menus as $menu) {
-                $menu->category1_mod = isset($menu->category1->category1) ? $menu->category1->category1 : 'なし';
-                $menu->category2_mod = isset($menu->category2->category2) ? $menu->category2->category2 : 'なし';
-            }
-    
-            $data = [
-                'menus' => $menus,
-                'kondate' => $kondate,
-            ];
-    
-            return view('menus.index', $data);
-        } else {
-            return view('welcome');
+        $user = Auth::user();
+        $menus = Menu::where('user_id', Auth::id())
+            ->where('delete_flg', 0)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        $kondate = new Kondate;
+
+        // ユーザ名をセッションに保存
+        Session::put('user_name', $user->name);
+
+        foreach($menus as $menu) {
+            $menu->category1_mod = isset($menu->category1->category1) ? $menu->category1->category1 : 'なし';
+            $menu->category2_mod = isset($menu->category2->category2) ? $menu->category2->category2 : 'なし';
         }
+
+        $data = [
+            'menus' => $menus,
+            'kondate' => $kondate,
+        ];
+
+        return view('menus.index', $data);
     }
 
     public function show($id)

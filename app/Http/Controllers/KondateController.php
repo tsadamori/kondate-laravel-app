@@ -10,11 +10,6 @@ use App\Kondate;
 
 class KondateController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function history()
     {
         $kondate = Kondate::where('user_id', Auth::id())

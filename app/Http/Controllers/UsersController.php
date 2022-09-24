@@ -5,79 +5,46 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
-use Auth;
+use App\Services\UserService;
+use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
-    public function index()
+    public function index(UserService $userService)
     {
-        $users = User::orderBy('id', 'desc')->paginate(10);
-
         return view('users.index', [
-            'users' => $users,
+            'users' => $userService->getUsers(),
         ]);
     }
 
-    public function show()
+    public function show(UserService $userService)
     {
-        $user = User::find(Auth::id());
-
         return view('users.show', [
-            'user' => $user,
+            'user' => $userService->getUser(Auth::id()),
         ]);
     }
 
-    public function edit()
+    public function edit(UserService $userService)
     {
-        $user = User::find(Auth::id());
-
         return view('users.edit', [
-            'user' => $user,
+            'user' => $userService->getUser(Auth::id()),
         ]);
     }
 
-    public function update(Request $request)
+    public function update(UpdateUserRequest $request, UserService $userService)
     {
-        // バリデーション
-        $this->validate($request, [
-            'name' => 'required',
-            'profile' => 'required',
+        $userService->updateUser(Auth::id(), [
+            'name' => $request->name,
+            'profile' => $request->profile
         ]);
-
-        // ユーザ情報をアップデート
-        $user = User::where('id', Auth::id())->first();
-        $user->name = $request->name;
-        $user->profile = $request->profile;
-
-        // プロフィール画像更新
-        if (!empty($_FILES['file']['name'])) {
-            // 変更前の古い画像を削除
-            $old_img_name = $user->img_name;
-            if (!is_null($old_img_name) && file_exists("img/profile/{$old_img_name}")) {
-                unlink("img/profile/{$old_img_name}");
-            }
-    
-            $user->img_name = !empty($_FILES['file']['name']) ? $_FILES['file']['name'] : null;
-            
-            // プロフィール画像アップロード
-            $fileDir = "img/profile";
-            $tmp = $_FILES['file']['tmp_name'];
-            $name = $_FILES['file']['name'];
-    
-            if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-                move_uploaded_file($tmp, "{$fileDir}/{$name}");
-            }
-        }
-        // ユーザ情報を更新        
-        $user->save();
 
         return redirect('profile');
     }
 
-    public function delete()
+    public function delete(UserService $userService)
     {
-        $user = User::where('id', Auth::id());
-        $user->delete();
+        $userService->deleteUser($id);
         Auth::logout();
 
         return view('users.bye');

@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use App\User;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
-// require_once '/var/www/html/laravel-app/vendor/autoload.php';
 use Socialite;
 
 class LoginController extends Controller

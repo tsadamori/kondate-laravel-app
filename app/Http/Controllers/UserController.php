@@ -9,7 +9,7 @@ use App\Services\UserService;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     private $userService;
 

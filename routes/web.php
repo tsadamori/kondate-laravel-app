@@ -21,16 +21,16 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/profile', 'UsersController@show')->name('users.show');
-    Route::get('/edit', 'UsersController@edit')->name('users.edit');
-    Route::put('/update', 'UsersController@update')->name('users.update');
-    Route::get('/password_change', 'UsersController@password_change')->name('users.password_change');
-    Route::post('/delete', 'UsersController@delete')->name('users.delete');
+    Route::get('/profile', 'UserController@show')->name('users.show');
+    Route::get('/edit', 'UserController@edit')->name('users.edit');
+    Route::put('/update', 'UserController@update')->name('users.update');
+    Route::get('/password_change', 'UserController@password_change')->name('users.password_change');
+    Route::post('/delete', 'UserController@delete')->name('users.delete');
     
     Route::get('/', 'MenusController@index')->name('/');
-    Route::resource('menus', 'MenusController');
-    Route::post('menus/search', 'MenusController@search')->name('menus.search');
-    Route::post('menus/add_kondate', 'MenusController@add_kondate')->name('menus.add_kondate');
+    Route::resource('menus', 'MenuController');
+    Route::post('menus/search', 'MenuController@search')->name('menus.search');
+    Route::post('menus/add_kondate', 'MenuController@add_kondate')->name('menus.add_kondate');
     Route::post('menus/list', 'KondateController@generate_kondate_list')->name('menus.list');
     
     Route::get('kondate/history', 'KondateController@history')->name('kondate.history');

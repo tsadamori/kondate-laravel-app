@@ -10,56 +10,25 @@ use App\Menu;
 use App\Category1;
 use App\Category2;
 use App\Kondate;
+use App\Services\MenuService;
 
-class MenusController extends Controller
+class MenuController extends Controller
 {
+    private $menuService;
+
+    public function __construct(MenuService $menuService)
+    {
+        $this->menuService = $menuService;
+    }
+
     public function index()
     {
-        $user = Auth::user();
-        $menus = Menu::where('user_id', Auth::id())
-            ->where('delete_flg', 0)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-        $kondate = new Kondate;
-
-        // ユーザ名をセッションに保存
-        Session::put('user_name', $user->name);
-
-        foreach($menus as $menu) {
-            $menu->category1_mod = isset($menu->category1->category1) ? $menu->category1->category1 : 'なし';
-            $menu->category2_mod = isset($menu->category2->category2) ? $menu->category2->category2 : 'なし';
-        }
-
-        $data = [
-            'menus' => $menus,
-            'kondate' => $kondate,
-        ];
-
-        return view('menus.index', $data);
+        return view('menus.index', $this->menuService->indexMenus());
     }
 
     public function show($id)
     {
-        $menu = Menu::where('user_id', Auth::id())->find($id);
-
-        //材料を配列に格納
-        $tmp_array = explode(',', $menu->ingredients);
-
-        $ingredients = [];
-
-        for($i = 0; $i < count($tmp_array) / 2; $i++) {
-            $ingredients[$i]['ingredient'] = $tmp_array[$i * 2];
-            $ingredients[$i]['count'] = $tmp_array[$i * 2 + 1];
-        }
-
-        //カテゴリの指定がない場合「なし」を表示
-        $menu->category1_mod = isset($menu->category1->category1) ? $menu->category1->category1 : 'なし';
-        $menu->category2_mod = isset($menu->category2->category2) ? $menu->category2->category2 : 'なし';
-
-        return view('menus.show', [
-            'menu' => $menu,
-            'ingredients' => $ingredients,
-        ]);
+        return view('menus.show', $this->menuService->getMenu($id));
     }
 
     public function create()
